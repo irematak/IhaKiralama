@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHA Listesi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.0.11/dist/tailwind.min.css" rel="stylesheet">
+       <!-- Font Awesome -->
+       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .ihacard {
+            background-color: #f0f0f0;
+            width: 1000px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 50px;
+            padding-top: 50px;
+            margin-bottom: 20px; 
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .ihacard img {
+            width: 450px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .ihacard-details {
+            flex-grow: 1;
+        }
+          /* Filtrelerin boyutunu küçültmek için eklenen stil */
+          #filterForm input {
+            font-size: 0.8rem;
+           
+            width: 300px;
+        }
+        #filterForm select,
+        #filterForm button {
+       
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'anasayfa' %}">Anasayfa</a>
+           
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'iha_ekle' %}">İha Ekle</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'iha_listele' %}" class="nav-link">
+                        <i class="fas fa-plane"></i> Ihalar
+                    </a>
+                </li> 
+                {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a href="{% url 'profile' %}" class="nav-link">
+                 <i class="fas fa-user-circle profile-icon"></i>
+                  Profil
+                 </a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                 <a href="{% url 'giris' %}" class="nav-link">Giriş Yap</a>
+             </li>
+             {% endif %}
+             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'cikis_yap' %}" class="nav-link">Çıkış Yap</a>
+                </li>
+              {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mx-auto mt-5">
+        <h1 class="text-3xl font-bold mb-4">IHALAR</h1>
+        <!-- Filtre ve Arama Formu -->
+        <form id="filterForm">
+            <div class="row">
+                <!-- Model Filtresi -->
+                <div class="col-md-4 mb-3" style="margin-left: 50px;">
+                    <label for="modelFilter" class="form-label">Model:</label>
+                    <input type="text" class="form-control" id="modelFilter" name="modelFilter">
+                </div>
+                <!-- Ağırlık Filtresi -->
+                <div class="col-md-4 mb-1">
+                    <label for="agirlikFilter" class="form-label">Ağırlık:</label>
+                    <select class="form-select" id="agirlikFilter" name="agirlikFilter">
+                        <option value="">Tümü</option>
+                        <option value="1">1 Ton'dan Hafif</option>
+                        <option value="2">1 - 2 Ton Arası</option>
+                        <option value="8">8 Ton'dan Ağır</option>
+                    </select>
+                </div>
+                <!-- Filtreleme Butonu -->
+                <div class="col-md-2 mb-3">
+                    <label class="invisible">Filtreleme Butonu</label> <!-- Görünmez label ile butonun hizalanması sağlanır -->
+                    <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+                </div>
+            </div>
+        </form>
+        
+    
+        <!-- IHA Listesi -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="ihaList">
+            {% for iha in iha_list %}
+                <div class="ihacard" data-agirlik="{{ iha.agirlik }}">
+                    <img src="/static/images/{{ iha.model|lower }}.png" alt="{{ iha.model }}">
+                    <div class="ihacard-details">
+                        <h2 class="text-xl font-semibold">{{ iha.marka }} {{ iha.model }}</h2>
+                        <a href="{% url 'iha_detaylar' iha.id %}" class="btn btn-primary mt-2">Detaylar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="benimIhaList">
+            {% for iha in benim_iha %}
+                <div class="ihacard" data-agirlik="{{ iha.agirlik }}" >
+                    <img src="/static/images/djl.png" alt="{{ iha.model }}" style="max-width: 300px; max-height: 300px;" >
+                    <div class="ihacard-details" style="margin-left: 150px;">
+                        <h2 class="text-xl font-semibold" >{{ iha.marka }} {{ iha.model }}</h2>
+                        <a href="{% url 'ihalarim' %}" class="btn btn-primary mt-2">Detaylar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+      
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Filtreleme ve Arama İşlemi
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Formun normal submit işlemini engelle
+            const modelFilter = document.getElementById('modelFilter').value.toLowerCase();
+            const agirlikFilter = document.getElementById('agirlikFilter').value;
+            const ihaList = document.getElementById('ihaList');
+            const benimIhaList = document.getElementById('benimIhaList');
+    
+            // Her bir ihacard'ı dolaşarak filtreleme işlemini yap
+            filterIhaCards(ihaList, modelFilter, agirlikFilter);
+            filterIhaCards(benimIhaList, modelFilter, agirlikFilter);
+        });
+    
+        function filterIhaCards(ihaList, modelFilter, agirlikFilter) {
+            const ihacards = ihaList.getElementsByClassName('ihacard');
+    
+            // Her bir ihacard'ı dolaşarak filtreleme işlemini yap
+            for (let i = 0; i < ihacards.length; i++) {
+                const ihacard = ihacards[i];
+                const model = ihacard.getElementsByClassName('text-xl')[0].innerText.toLowerCase();
+                const agirlik = ihacard.dataset.agirlik;
+    
+                // Model ve Ağırlık filtrelerini uygula
+                const modelMatch = model.includes(modelFilter);
+                const agirlikMatch = agirlikFilter === '' || (agirlikFilter === '1' && parseInt(agirlik) < 1) ||
+                    (agirlikFilter === '2' && parseInt(agirlik) >= 1 && parseInt(agirlik) <= 2) ||
+                    (agirlikFilter === '8' && parseInt(agirlik) >= 8);
+    
+                // Model ve Ağırlık filtrelerine uyan ihacard'ları göster, uymayanları gizle
+                if (modelMatch && agirlikMatch) {
+                    ihacard.style.display = '';
+                } else {
+                    ihacard.style.display = 'none';
+                }
+            }
+        }
+    </script>
+    
+</body>
+</html>

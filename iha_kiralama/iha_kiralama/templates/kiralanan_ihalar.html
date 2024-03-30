@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiralanan İhalar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Font Awesome -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'anasayfa' %}">Anasayfa</a>
+           
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'iha_ekle' %}">İha Ekle</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'iha_listele' %}" class="nav-link">
+                        <i class="fas fa-plane"></i> Ihalar
+                    </a>
+                </li> 
+                {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a href="{% url 'profile' %}" class="nav-link">
+                 <i class="fas fa-user-circle profile-icon"></i>
+                  Profil
+                 </a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                 <a href="{% url 'giris' %}" class="nav-link">Giriş Yap</a>
+             </li>
+             {% endif %}
+             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'cikis_yap' %}" class="nav-link">Çıkış Yap</a>
+                </li>
+              {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="my-4">Kiraladığınız İhalar</h1>
+        <!-- Arama ve Dropdown Filtreler -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modelFilter" class="form-label">Model Arama:</label>
+                <input type="text" class="form-control" id="modelFilter" name="modelFilter">
+            </div>
+            <div class="col-md-4">
+                <label for="kiralamaSureFilter" class="form-label">Kiralama Süresi:</label>
+                <select class="form-select" id="kiralamaSureFilter" name="kiralamaSureFilter">
+                    <option value="">Tümü</option>
+                    <option value="0">15 Günden Az</option>
+                    <option value="1">15 - 30 Gün Arası</option>
+                    <option value="2">30 Günden Fazla</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3" style="margin-top: 30px;">
+                <button type="button" class="btn btn-primary" id="filterBtn">Filtrele</button>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">IHA Modeli</th>
+                    <th scope="col">Başlangıç Tarihi</th>
+                    <th scope="col">Bitiş Tarihi</th>
+                    <th scope="col" class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kiralanan_iha in kiralanan_ihalar %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ kiralanan_iha.iha_model }}</td>
+                    <td>{{ kiralanan_iha.baslangic_tarihi }}</td>
+                    <td>{{ kiralanan_iha.bitis_tarihi }}</td>
+                    <td>
+                        <!-- Kiralamayı Sil Butonu ve Tarih Düzenleme Butonu -->
+                        <div class="d-flex justify-content-around ">
+                            <form method="post" action="{% url 'kiralama_sil' kiralanan_iha.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Sil</button>
+                            </form>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tarihDuzenleModal{{ kiralanan_iha.id }}">
+                                Düzenle
+                            </button>
+                        </div>
+                        <!-- Tarih Düzenleme Modalı -->
+                        <div class="modal fade" id="tarihDuzenleModal{{ kiralanan_iha.id }}" tabindex="-1" aria-labelledby="tarihDuzenleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tarihDuzenleModalLabel">Tarih Düzenle</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'tarih_duzenle' kiralanan_iha.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="baslangicTarihi" class="form-label">Başlangıç Tarihi:</label>
+                                                <input type="date" class="form-control" id="baslangicTarihi" name="baslangicTarihi" value="{{ kiralanan_iha.baslangic_tarihi }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="bitisTarihi" class="form-label">Bitiş Tarihi:</label>
+                                                <input type="date" class="form-control" id="bitisTarihi" name="bitisTarihi" value="{{ kiralanan_iha.bitis_tarihi }}" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">Henüz kiraladığınız bir IHA bulunmamaktadır.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript Kodu -->
+    <script>
+  document.getElementById('filterBtn').addEventListener('click', function() {
+    var modelFilterValue = document.getElementById('modelFilter').value;
+    var kiralamaSureFilterValue = document.getElementById('kiralamaSureFilter').value;
+    var rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach(function(row) {
+        var model = row.querySelector('td:nth-child(2)').textContent.trim();
+        var baslangicTarihi = row.querySelector('td:nth-child(3)').textContent.trim();
+        var bitisTarihi = row.querySelector('td:nth-child(4)').textContent.trim();
+        var kiralamaSure = Math.round((new Date(bitisTarihi) - new Date(baslangicTarihi)) / (1000 * 60 * 60 * 24));
+
+        var modelMatch = model.toLowerCase().includes(modelFilterValue.toLowerCase());
+        var kiralamaSureMatch = (kiralamaSureFilterValue === '' ||
+            (kiralamaSureFilterValue === '0' && kiralamaSure < 15) ||
+            (kiralamaSureFilterValue === '1' && kiralamaSure >= 15 && kiralamaSure <= 30) ||
+            (kiralamaSureFilterValue === '2' && kiralamaSure > 30));
+
+        if (modelMatch && kiralamaSureMatch) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

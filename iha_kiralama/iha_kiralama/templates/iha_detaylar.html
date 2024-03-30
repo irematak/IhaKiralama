@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHA Detayları</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <!-- Bootstrap JS -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Your custom styles -->
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .iha-details {
+            background-color: #f9f9f9;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        .iha-name {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .iha-info {
+            margin-bottom: 20px;
+        }
+
+        .iha-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-kiralama {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-kiralama:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'anasayfa' %}">Anasayfa</a>
+           
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="{% url 'iha_listele' %}" class="nav-link">
+                        <i class="fas fa-plane"></i> Ihalar
+                    </a>
+                </li> 
+                {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a href="{% url 'profile' %}" class="nav-link">
+                 <i class="fas fa-user-circle profile-icon"></i>
+                  Profil
+                 </a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                 <a href="{% url 'giris' %}" class="nav-link">Giriş Yap</a>
+             </li>
+             {% endif %}
+             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'cikis_yap' %}" class="nav-link">Çıkış Yap</a>
+                </li>
+              {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="iha-details">
+            <h2 class="iha-name">{{iha.marka}} {{ iha.model }}</h2>
+            <img src="/static/images/{{ iha.model|lower }}.png" alt="{{ iha.model }}" class="iha-image">
+            <div class="iha-info">
+                <p><strong>Havada Kalış Süresi:</strong> {{ iha.havada_kalıs_suresi }} Saat </p>
+                <p><strong>Ağırlık:</strong> {{ iha.agirlik }} Ton</p>
+                <p><strong>Uzunluk:</strong> {{ iha.uzunluk }} Metre</p>
+                <!-- Add more details as needed -->
+            </div>
+   
+            <button class="btn-kiralama" onclick="openPopup()">IHA Kirala</button>
+   
+                    
+        </div>
+    </div>
+    <div id="kiralamaPopup" class="modal" tabindex="-1" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kiralama Tarihini Seçin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="kiralamaForm" action="{% url 'kiralama_islemi' iha.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="ihaId" name="ihaId" value="{{ iha.id }}">
+                        <div class="mb-3">
+                            <label for="baslangicTarihi" class="form-label">Başlangıç Tarihi:</label>
+                            <input type="date" class="form-control" id="baslangicTarihi" name="baslangicTarihi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bitisTarihi" class="form-label">Bitiş Tarihi:</label>
+                            <input type="date" class="form-control" id="bitisTarihi" name="bitisTarihi" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirala</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        //  gelen kullanıcı oturum bilgisini almak için gizli bir HTML veri özniteliği kullanıyoruz
+        var isAuthenticated = "{{ user.is_authenticated }}";
+        function openPopup() {
+        // Kullanıcı oturum açmışsa IHA kiralamayı işle
+        if (isAuthenticated === "True") {
+            $('#kiralamaPopup').modal('show'); // Bootstrap modal gösterme fonksiyonu
+        } else {
+            // Kullanıcı oturum açmamışsa hata mesajı göster
+            alert("Lütfen giriş yapınız!");
+        }
+    }
+    </script>
+</body>
+</html>
