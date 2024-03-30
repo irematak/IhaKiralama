@@ -17,7 +17,40 @@ Listeleme sayfasındaki iha kartlardaki detaylar butonuna tıklanınca ihanın d
 İha Kirala butonuna tıklanıca ihanın hangi tarihler arasında kiralnacaği bilgisi alınmaktadır.
 ![image](https://github.com/irematak/django_deneme/assets/75726319/32362ef6-a3cb-4016-894b-9ceef3894fea)
 Kiralandıktan sonra Kiraladığınız İhalar sayfasına yönlendirmektedir.
-![image](https://github.com/irematak/IhaKiralama/assets/75726319/f98c036d-8211-4072-a916-beed34e090cb)
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/0e7e9374-1b3d-49f4-bdab-8dd22994a866)
+Bu sayfada kiralama işlemini silinebilir ya da tarih düzenlenebilir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/57c9ff95-84f9-4279-a33e-aa0e61607940)
+Bu sayfada da iki filre bulunmaktadır. Bir tanesi model adına göre kayıt getirmektedir.
+Diğeri ise kiralama süresine göre kayıt getirmektedir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/aa723798-5de0-456e-8005-ea67ba72fcb1)
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/791af3b4-b94b-469d-851d-60c9d0d90e6f)
+Ayrıca kendi ihanızı da ekleme sayfası bulunmaktadır. Bu sayfadaki formu doldurup kaydettikten sonra ihalar sayfasına yönlendirmektedir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/5ba31cf5-d738-4e8c-a5a2-e9d714b58dbe)
+Bu sayfada eklediğimiz ihayı da görüntüleyebiliyoruz. Kendi ihamız için detaylar butonuna tıklayınca İhalarım sayfasına yönlendirmektedir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/a488d301-4e92-43d5-8339-b0795bae0392)
+Bu sayfada kullanıcının eklediği ihalar listelenmektedir. 
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/9aacf17d-702c-4ee2-821b-c804ab732a2d)
+Düzenle butonuyla ihanın özellikleri güncellenmektedir. Sil butonuyla da iha silinmektedir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/c6e03a97-3ebf-4a1e-b986-a46fb5905e8b)
+Profil sayfasında ise kullanıcının bilgileri ve Kiralanan İhalar ve İhalarım sayfasına yönlendiren butonlar bulunmaktadır.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/02bb98fb-3fc0-4586-9c7d-9a3d6f9f07ce)
+Çıkış Yap butonuna tıklanınca çıkış yapıp anasayfaya yönlendirmektedir.
+Kayıtlı olan Kullanıcılır Giriş Yap'a tıklayarak giriş yapma formuna yönlendirilmektedir.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/c6b205ea-f87e-41c1-912e-d53acb3deda2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
