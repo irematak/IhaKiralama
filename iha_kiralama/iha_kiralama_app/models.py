@@ -33,7 +33,5 @@ class KiralananIHA(models.Model):
     baslangic_tarihi = models.DateField()
     bitis_tarihi = models.DateField()
 
-    # Gerekirse başka alanlar da ekleyebilirsiniz
-
     class Meta:
         app_label = 'iha_kiralama_app'
