@@ -12,6 +12,10 @@ Anasayfada bulunan kayıt ol butonuyla kaydolunmaktadır.
 Giriş yapıldığı için navbarda Profilim sayfası da gözükmektedir.  
 ![Profilim](https://github.com/irematak/django_deneme/assets/75726319/afcb43b9-d86e-4811-aa98-d08af9a451f4)
 
+Giriş yapma sayfasından kayıtlı kullanıcılar giriş yapabilirler.
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/74a55a13-67a5-4f80-b159-ea0685ed7aaa)
+
+
 ## İhalar Sayfası
 
 Navbarda bulunan ihalar butonuna tıklanınca bütün ihaların listelendiği sayfa açılmaktadır. Bu sayfada iki filtre vardır.  
@@ -39,12 +43,14 @@ Bu sayfada da iki filtre bulunmaktadır. Bir tanesi model adına göre kayıt ge
 
 ![Filtreleme İşlemi](https://github.com/irematak/IhaKiralama/assets/75726319/791af3b4-b94b-469d-851d-60c9d0d90e6f)
 
+## İha Ekle Sayfası
 Ayrıca kendi ihanızı da ekleme sayfası bulunmaktadır. Bu sayfadaki formu doldurup kaydettikten sonra ihalar sayfasına yönlendirmektedir.  
 ![İha Ekleme](https://github.com/irematak/IhaKiralama/assets/75726319/5ba31cf5-d738-4e8c-a5a2-e9d714b58dbe)
 
 Bu sayfada eklediğimiz ihayı da görüntüleyebiliyoruz. Kendi ihamız için detaylar butonuna tıklayınca İhalarım sayfasına yönlendirmektedir.  
 ![İha Görüntüleme](https://github.com/irematak/IhaKiralama/assets/75726319/a488d301-4e92-43d5-8339-b0795bae0392)
 
+## İhalarım Sayfası
 Bu sayfada kullanıcının eklediği ihalar listelenmektedir.  
 ![Kullanıcı İhaları](https://github.com/irematak/IhaKiralama/assets/75726319/9aacf17d-702c-4ee2-821b-c804ab732a2d)
 
@@ -54,7 +60,10 @@ Düzenle butonuyla ihanın özellikleri güncellenmektedir. Sil butonuyla da iha
 ## Profil Sayfası
 
 Profil sayfasında ise kullanıcının bilgileri ve Kiralanan İhalar ve İhalarım sayfasına yönlendiren butonlar bulunmaktadır.  
-![Profil](https://github.com/irematak/IhaKiralama/assets/75726319/02bb98fb-3fc0
+![image](https://github.com/irematak/IhaKiralama/assets/75726319/02bb98fb-3fc0-4586-9c7d-9a3d6f9f07ce)
+Çıkış Yap butonuna tıklanınca çıkış yapıp anasayfaya yönlendirmektedir.
+
+
 
 
 
