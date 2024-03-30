@@ -26,7 +26,9 @@ Listeleme sayfasındaki iha kartlardaki detaylar butonuna tıklanınca ihanın d
 İha Kirala butonuna tıklanıca ihanın hangi tarihler arasında kiralnacaği bilgisi alınmaktadır.  
 ![İha Kiralama](https://github.com/irematak/django_deneme/assets/75726319/32362ef6-a3cb-4016-894b-9ceef3894fea)
 
-Kiralandıktan sonra Kiraladığınız İhalar sayfasına yönlendirmektedir.  
+Kiralandıktan sonra Kiraladığınız İhalar sayfasına yönlendirmektedir. 
+
+## Kiraladığınız İhalar Sayfası
 ![Kiraladığınız İhalar](https://github.com/irematak/IhaKiralama/assets/75726319/0e7e9374-1b3d-49f4-bdab-8dd22994a866)
 
 Bu sayfada kiralama işlemini silinebilir ya da tarih düzenlenebilir.  
